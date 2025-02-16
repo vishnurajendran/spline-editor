@@ -1,0 +1,7 @@
+# ninja log v6
+1	1937	7614385357304874	build.ninja	15bd9733825ba62
+21	730	7614385365636737	_deps/glad-build/include/glad/glad.h	2a85206861742aa7
+21	730	7614385365636737	_deps/glad-build/src/glad.c	2a85206861742aa7
+21	730	7614385365636737	D:/Github/spline-editor/cmake-build-debug/_deps/glad-build/include/glad/glad.h	2a85206861742aa7
+21	730	7614385365636737	D:/Github/spline-editor/cmake-build-debug/_deps/glad-build/src/glad.c	2a85206861742aa7
+730	1404	7614385366002284	_deps/glad-build/CMakeFiles/glad.dir/src/glad.c.obj	90c9d6f00333c539
