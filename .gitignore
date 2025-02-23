@@ -11,3 +11,10 @@ CTestTestfile.cmake
 _deps
 
 /cmake-build-debug/
+/_deps/
+/CMakeFiles/
+/.cmake/
+/cmake-build-debug/
+
+
+/*.a

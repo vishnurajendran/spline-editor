@@ -1,5 +1,7 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/unproject.h>
+#include <igl/opengl/glfw/imgui/ImGuiPlugin.h>
+#include <igl/opengl/glfw/imgui/ImGuizmoWidget.h>
 #include <Eigen/Core>
 #include <vector>
 #include <iostream>
@@ -80,7 +82,20 @@ void generateBezierSurface(Eigen::MatrixXd &V, Eigen::MatrixXi &F) {
 
 
 int main() {
+
+    igl::opengl::glfw::imgui::ImGuiPlugin imgui_plugin;
+
     igl::opengl::glfw::Viewer viewer;
+    viewer.plugins.push_back(&imgui_plugin);
+
+    igl::opengl::glfw::imgui::ImGuizmoWidget gizmo;
+    imgui_plugin.widgets.push_back(&gizmo);
+    gizmo.operation = ImGuizmo::TRANSLATE;
+    gizmo.callback = [&](const Eigen::Matrix4f & T)
+    {
+        // do nothing for now.
+    };
+
     Eigen::MatrixXd V_control, V_surface;
     Eigen::MatrixXi E_control, F_surface;
 

@@ -2,45 +2,55 @@ cmake_minimum_required(VERSION 3.16)
 project(spline_editor)
 
 set(CMAKE_CXX_STANDARD 20)
+list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# Find Python3
-find_package(Python3 REQUIRED)
+# Libigl
+include(libigl)
 
-# Include FetchContent for dependency management
-include(FetchContent)
+# Enable the target igl::glfw
+igl_include(glfw)
+# Other modules you could enable
+#igl_include(embree)
+igl_include(imgui)
+igl_include(opengl)
+#igl_include(stb)
+#igl_include(predicates)
+#igl_include(xml)
+#igl_include(copyleft cgal)
+#igl_include(copyleft comiso)
+#igl_include(copyleft core)
+#igl_include(copyleft cork)
+#igl_include(copyleft tetgen)
+#igl_include(restricted matlab)
+#igl_include(restricted mosek)
+#igl_include(restricted triangle)
 
-# Fetch glad for OpenGL function loading
-FetchContent_Declare(
-        glad
-        GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-        GIT_TAG master
-)
-FetchContent_MakeAvailable(glad)
+# Add your project files
+file(GLOB SRC_FILES *.cpp)
+add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-# Find GLFW installed via Homebrew
-find_package(glfw3 REQUIRED)
-
-# Add executable
-add_executable(spline_editor main.cpp)
-
-# Link glad and glfw
-target_link_libraries(spline_editor PRIVATE glad glfw)
-
-# Include directories
-target_include_directories(spline_editor PRIVATE
-        #${glad_SOURCE_DIR}/include  # Glad include path
-        ${CMAKE_SOURCE_DIR}/vendor/libigl/include
-        ${CMAKE_SOURCE_DIR}/vendor/eigen_src
-        /opt/homebrew/include  # For GLFW (Apple Silicon)
-        /usr/local/include      # For GLFW (Intel Macs)
-)
-
-# Ensure GLFW is linked from the correct path
-target_link_directories(spline_editor PRIVATE
-        /opt/homebrew/lib  # Apple Silicon
-        /usr/local/lib      # Intel Macs
+# Link igl (and the glfw module) to your project
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        igl::glfw
+        ## Other modules you could link to
+        # igl::embree
+        igl::imgui
+        igl::opengl
+        # igl::stb
+        # igl::predicates
+        # igl::xml
+        # igl_copyleft::cgal
+        # igl_copyleft::comiso
+        # igl_copyleft::core
+        # igl_copyleft::cork
+        # igl_copyleft::tetgen
+        # igl_restricted::matlab
+        # igl_restricted::mosek
+        # igl_restricted::triangle
 )
 
 set_target_properties(spline_editor PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 )
+
+include_directories(${LIBIGL_INCLUDE_DIRS})
