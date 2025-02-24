@@ -5,21 +5,12 @@
 #ifndef SPLINE_EDITOR_SPLINECORE_H
 #define SPLINE_EDITOR_SPLINECORE_H
 
-//STL
-#include <vector>
-#include <iostream>
-
-//LIBIGL
-#include <Eigen/Core>
-#include "igl/opengl/glfw/Viewer.h"
-#include "igl/unproject.h"
-#include "igl/opengl/glfw/imgui/ImGuiPlugin.h"
-#include "igl/opengl/glfw/imgui/ImGuizmoWidget.h"
-#include "igl/unproject_ray.h"
-
-//SPLINE_EDITOR
+// SPLINE_EDITOR
 #include "typedefines.h"
 #include "controlmesh.h"
-#include "beziermesh.h"
+#include "bsplinemesh.h"
+
+// EDITOR
+#include "editor.h"
 
 #endif //SPLINE_EDITOR_SPLINECORE_H

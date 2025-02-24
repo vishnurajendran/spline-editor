@@ -16,8 +16,11 @@ private:
 
 public:
     ControlMesh();
-    const MatXd* getVertices();
-    const MatXi* getEdges();
+    MatXd getVertices();
+    MatXi getEdges();
+    inline void setControlPoint(int selected, vec3 value) { controlPoints[selected] = value; }
+    inline void update() { generateMesh(); }
+    inline std::vector<vec3>* getControlPoints() { return &controlPoints; }
 };
 
 

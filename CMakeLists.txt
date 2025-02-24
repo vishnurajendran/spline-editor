@@ -15,10 +15,12 @@ add_executable(${PROJECT_NAME}
         src/typedefines.h
         src/controlmesh.h
         src/controlmesh.cpp
-        src/beziermesh.h
-        src/beziermesh.cpp
+        src/bsplinemesh.h
+        src/bsplinemesh.cpp
         src/splinecore.h
         src/main.cpp
+        src/editor.cpp
+        src/editor.h
 )
 
 # Target-specific include directories

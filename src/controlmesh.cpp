@@ -5,6 +5,12 @@
 #include "controlmesh.h"
 
 ControlMesh::ControlMesh() {
+    controlPoints = {
+            { -1, 0,  -1 }, { -0.5, 0, -1 }, {  0.5, 0,  -1 }, {  1, 0 , -1 },
+            { -1, 0,  -0.5 }, { -0.5, 0, -0.5 }, {  0.5, 0, -0.5 }, {  1, 0, -0.5 },
+            { -1,  0, 0.5 }, { -0.5,  0, 0.5 }, {  0.5,  0, 0.5 }, {  1,  0, 0.5 },
+            { -1,  0,  1 }, { -0.5,  0,  1 }, {  0.5,  0,  1 }, {  1,  0,  1 }
+    };
     generateMesh();
 }
 
@@ -30,10 +36,10 @@ void ControlMesh::generateMesh() {
     }
 }
 
-const MatXd *ControlMesh::getVertices() {
-    return &vMat;
+MatXd ControlMesh::getVertices() {
+    return vMat;
 }
 
-const MatXi *ControlMesh::getEdges() {
-    return &eMat;
+MatXi ControlMesh::getEdges() {
+    return eMat;
 }
