@@ -10,11 +10,11 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-/cmake-build-debug/
+/cmake-build-*/
 /_deps/
 /CMakeFiles/
 /.cmake/
-/cmake-build-debug/
 
 
 /*.a
+/cmake-build-release/

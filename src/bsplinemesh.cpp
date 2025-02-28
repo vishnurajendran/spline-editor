@@ -4,8 +4,8 @@
 
 #include "bsplinemesh.h"
 
-vec3 BSplineMesh::evaluate(std::vector<vec3> &cpGrid, double u, double v) {
-    vec3 point(0,0,0);
+vec3d BSplineMesh::evaluate(std::vector<vec3d> &cpGrid, double u, double v) {
+    vec3d point(0,0,0);
     double Bu[4] = { B0(u), B1(u), B2(u), B3(u) };
     double Bv[4] = { B0(v), B1(v), B2(v), B3(v) };
 
@@ -26,8 +26,8 @@ void BSplineMesh::generate(ControlMesh& controlMesh) {
     auto controlPoints = *controlMesh.getControlPoints();
 
     // Extended evaluation range
-    double minU = -0.5, maxU = 1.5;
-    double minV = -0.5, maxV = 1.5;
+    double minU = 0.0, maxU = 1.0;
+    double minV = 0.0, maxV = 1.0;
 
     for (int u = 0; u < resolution; u++) {
         double uu = minU + (maxU - minU) * (double)u / (resolution - 1);

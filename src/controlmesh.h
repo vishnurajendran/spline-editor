@@ -9,7 +9,7 @@
 
 class ControlMesh {
 private:
-    std::vector<vec3> controlPoints;
+    std::vector<vec3d> controlPoints;
     MatXd vMat;
     MatXi eMat;
     void generateMesh();
@@ -18,9 +18,9 @@ public:
     ControlMesh();
     MatXd getVertices();
     MatXi getEdges();
-    inline void setControlPoint(int selected, vec3 value) { controlPoints[selected] = value; }
+    inline void setControlPoint(int selected, vec3d value) { controlPoints[selected] = value; }
     inline void update() { generateMesh(); }
-    inline std::vector<vec3>* getControlPoints() { return &controlPoints; }
+    inline std::vector<vec3d>* getControlPoints() { return &controlPoints; }
 };
 
 
