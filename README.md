@@ -10,7 +10,7 @@ The app is developed using C++ and Libigl (with ImGui and ImGuizmo dependencies)
 - Variable Mesh Resolution.
 - Add/Remove patches (currently on in Z-axis) to make complex shapes.
 - Save/Load spline.
-- Export to FBX.
+- Export to OBJ.
 
 ## Installation
 run the following commands to setup the project using cmake.
