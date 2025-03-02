@@ -27,7 +27,7 @@ public:
 
     void generate(ControlMesh& controlMesh);
 
-    MatXd& getSurface();
+    MatXd& getVertices();
     MatXi& getFaces();
 };
 

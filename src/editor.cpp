@@ -3,9 +3,10 @@
 //
 
 #include "editor.h"
-
+#include <string>
 #include "igl/unproject_onto_mesh.h"
-#include "igl/unproject_ray.h"
+#include "igl/file_dialog_open.h"
+#include "igl/file_dialog_save.h"
 
 Editor::Editor(ControlMesh &cMesh, BSplineMesh &bMesh) {
     this->bMesh = bMesh;
@@ -54,7 +55,7 @@ void Editor::updateViewer() {
     }
 
     if (visibility != Lattice_Only)
-        viewer.data().set_mesh(bMesh.getSurface(), bMesh.getFaces());
+        viewer.data().set_mesh(bMesh.getVertices(), bMesh.getFaces());
 }
 
 void Editor::updateSelection()
@@ -62,7 +63,7 @@ void Editor::updateSelection()
     if (selectedPoint == -1)
         return;
 
-    vec3d pos = (*cMesh.getControlPoints())[selectedPoint];
+    vec3d pos = cMesh.getControlPoints()->at(selectedPoint);
     guizmoWidget.T(0,3) = pos.x();
     guizmoWidget.T(1,3) = pos.y();
     guizmoWidget.T(2,3) = pos.z();
@@ -95,7 +96,6 @@ bool Editor::mouseDownCallback(const igl::opengl::glfw::Viewer& viewer, const in
     auto V = cMesh.getVertices();
     auto core = viewer.core();
     vec3f screen_coords;
-
     for (int i = 0; i < V.rows(); ++i) {
         // Project vertex to screen-space
         igl::project(V.row(i).cast<float>(), core.view, core.proj, core.viewport, screen_coords);
@@ -127,40 +127,101 @@ bool Editor::mouseDownCallback(const igl::opengl::glfw::Viewer& viewer, const in
 
 void Editor::onMenuGUI()
 {
-    // Draw parent menu content
-    //menuWidget.draw_viewer_menu();
-    //Add new group
-    if (ImGui::CollapsingHeader("Spline Editor Options", ImGuiTreeNodeFlags_DefaultOpen))
+    //Give Load and Save Options
+    if (ImGui::Button("Save spline"))
     {
-
-        static const char* items[]{"Lattice Only","Surface Only","Lattice And Surface"};
-        static int Selecteditem = 2;
-        ImGui::SetNextItemWidth(130);
-        if ( ImGui::Combo("Viewing Options", &Selecteditem, items, IM_ARRAYSIZE(items)))
-        {
-            switch (Selecteditem)
-            {
-                case 0: visibility = Visibility::Lattice_Only; break;
-                case 1: visibility = Visibility::Surface_Only; break;
-
-                case 2:
-                default: visibility = Visibility::Lattice_And_Surface; break;
-            }
-            updateViewer();
-        }
-
-
-        auto resolution = bMesh.getResolution();
-        ImGui::SetNextItemWidth(130);
-        if (ImGui::InputInt("Mesh Resolution", &resolution, 1))
-        {
-            if (resolution > 200)
-                resolution = 200;
-
-            bMesh.setResolution(resolution);
-            bMesh.generate(cMesh);
-            updateViewer();
-
-        }
+        onSaveSpline();
     }
+    ImGui::SameLine();
+    if (ImGui::Button("Open spline"))
+    {
+       onLoadSpline();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Export to obj"))
+    {
+        onExportSpline();
+    }
+
+    ImGui::NewLine();
+
+    static const char* items[]{"Lattice Only","Surface Only","Lattice And Surface"};
+    static int Selecteditem = 2;
+    ImGui::SetNextItemWidth(130);
+    if ( ImGui::Combo("Viewing Options", &Selecteditem, items, IM_ARRAYSIZE(items)))
+    {
+        switch (Selecteditem)
+        {
+        case 0: visibility = Visibility::Lattice_Only; break;
+        case 1: visibility = Visibility::Surface_Only; break;
+
+        case 2:
+        default: visibility = Visibility::Lattice_And_Surface; break;
+        }
+        updateViewer();
+    }
+
+
+    auto resolution = bMesh.getResolution();
+    ImGui::SetNextItemWidth(130);
+    if (ImGui::InputInt("Mesh Resolution", &resolution, 1))
+    {
+        if (resolution > 200)
+            resolution = 200;
+
+        bMesh.setResolution(resolution);
+        bMesh.generate(cMesh);
+        updateViewer();
+    }
+
+    ImGui::NewLine();
+    if (ImGui::Button("+ Add New Patch"))
+    {
+        onAddPatch();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("- Remove Last Patch"))
+    {
+        onRemoveLastPatch();
+    }
+}
+
+void Editor::onAddPatch()
+{
+    cMesh.addPatch();
+    bMesh.generate(cMesh);
+    updateViewer();
+}
+
+void Editor::onRemoveLastPatch()
+{
+    cMesh.removeLastPatch();
+    bMesh.generate(cMesh);
+    updateViewer();
+}
+
+void Editor::onLoadSpline()
+{
+    auto path  = igl::file_dialog_open();
+    std::cout << "Loading spline..."<< path << std::endl;
+    cMesh.loadFromFile(path);
+    bMesh.generate(cMesh);
+    updateViewer();
+    std::cout << "Load Complete"<< path << std::endl;
+}
+
+void Editor::onSaveSpline()
+{
+    auto path  = igl::file_dialog_save();
+    std::cout << "Saving spline..."<< path << std::endl;
+    cMesh.saveToFile(path);
+    std::cout << "Save Complete"<< path << std::endl;
+}
+
+void Editor::onExportSpline()
+{
+    auto path  = igl::file_dialog_save();
+    std::cout << "Exporting spline..."<< path << std::endl;
+    igl::writeOBJ(path, bMesh.getVertices(), bMesh.getFaces());
+    std::cout << "Export Complete"<< path << std::endl;
 }

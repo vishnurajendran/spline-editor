@@ -48,6 +48,12 @@ private:
     void updateViewer();
     void updateSelection();
     void onMenuGUI();
+    void onAddPatch();
+    void onRemoveLastPatch();
+    void onLoadSpline();
+    void onSaveSpline();
+    void onExportSpline();
+
 public:
     Editor(ControlMesh& cMesh, BSplineMesh& bMesh);
 };

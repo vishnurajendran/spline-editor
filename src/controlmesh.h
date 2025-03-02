@@ -14,13 +14,22 @@ private:
     MatXi eMat;
     void generateMesh();
 
+    static const int COLS;
+    float gridStep=0;
+    int patches = 0;
 public:
     ControlMesh();
     MatXd getVertices();
     MatXi getEdges();
+    void addPatch();
+    void removeLastPatch();
+    inline int getPatches() { return patches; }
     inline void setControlPoint(int selected, vec3d value) { controlPoints[selected] = value; }
     inline void update() { generateMesh(); }
     inline std::vector<vec3d>* getControlPoints() { return &controlPoints; }
+    void saveToFile(const std::string& path);
+    void loadFromFile(const std::string& path);
+    inline static int getColumns() { return COLS; }
 };
 
 
