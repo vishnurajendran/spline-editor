@@ -26,3 +26,6 @@ cmake --build . --target spline_editor -j 30
 ```-j 30``` lets cmake build in parallel, it is recommended to use this to make your compile times shorter.
 
 Once compiled, the executable will be available in a new directory ```bin``` in the root directory of the project.
+
+## Known Compilation Issues
+Debug builds fails, due large obj file size. This is not present in Release build.
