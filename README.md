@@ -2,7 +2,7 @@
 This a basic b-spline editor application made for COMP 6381 (Digital Geometric Modelling) course.
 The app is developed using C++ and Libigl (with ImGui and ImGuizmo dependencies)
 
-#![spline-editor-icon](https://i.ibb.co/VcQCdq26/Screenshot-2025-03-01-200037.png)
+![spline-editor-icon](https://i.ibb.co/VcQCdq26/Screenshot-2025-03-01-200037.png)
 
 ## Features
 - Realtime mesh generation using control lattice.
